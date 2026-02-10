@@ -80,6 +80,7 @@ router.post("/login", async (req, res) => {
         email: user.email,
         role: user.designation ? [user.designation, ...(Array.isArray(user.role) ? user.role : [user.role])] : user.role,
         name: user.name,
+        designation: user.designation,
         employeeId: user.employeeId
       },
     });

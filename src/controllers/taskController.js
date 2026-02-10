@@ -219,7 +219,10 @@ export const getInvitations = async (req, res) => {
                 const targetDepts = task.assignee || [];
                 const roleMatch = targetDepts.some(dept => {
                     const allowedRoles = deptRoleMap[dept] || [dept]; // Fallback to 1:1
-                    return allowedRoles.includes(user.role);
+                    // Check if user has ANY of the allowed roles
+                    return Array.isArray(user.role)
+                        ? user.role.some(r => allowedRoles.includes(r))
+                        : allowedRoles.includes(user.role);
                 });
                 return roleMatch;
             }
