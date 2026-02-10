@@ -1,0 +1,6 @@
+--- DATE NORMALIZATION TEST ---
+ID: 6988b6fccc3371bf95a1749e, Raw: '31/01/26', Normalized: '2026-01-31'
+ID: 6988b6fccc3371bf95a1749f, Raw: '31/01/26', Normalized: '2026-01-31'
+ID: 6988b6fccc3371bf95a174a0, Raw: '31/01/26', Normalized: '2026-01-31'
+ID: 6988b6fccc3371bf95a174a1, Raw: '31/01/26', Normalized: '2026-01-31'
+ID: 6988b6fccc3371bf95a174a2, Raw: '31/01/26', Normalized: '2026-01-31'

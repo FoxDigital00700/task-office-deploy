@@ -1,0 +1,18 @@
+--- TIME ESTIMATION FORMATS ---
+ID: 6988b6fccc3371bf95a1749e, Time Estimaion: '00:12'
+ID: 6988b6fccc3371bf95a1749f, Time Estimaion: '00:06'
+ID: 6988b6fccc3371bf95a174a0, Time Estimaion: '00:16'
+ID: 6988b6fccc3371bf95a174a1, Time Estimaion: '00:24'
+ID: 6988b6fccc3371bf95a174a2, Time Estimaion: '02:20'
+ID: 6988b6fccc3371bf95a174a3, Time Estimaion: '00:15'
+ID: 6988b6fccc3371bf95a174a4, Time Estimaion: '00:38'
+ID: 6988b6fccc3371bf95a174a5, Time Estimaion: '00:15'
+ID: 6988b6fccc3371bf95a174a6, Time Estimaion: '00:15'
+ID: 6988b6fccc3371bf95a174a7, Time Estimaion: '00:17'
+
+--- LOGS WITH POTENTIALLY INVALID DATES ---
+ID: 6988b6fccc3371bf95a174ab, Date: 'undefined', date: 'undefined'
+ID: 6988b6fccc3371bf95a174b3, Date: 'undefined', date: 'undefined'
+ID: 6988b6fccc3371bf95a174bc, Date: 'undefined', date: 'undefined'
+ID: 6988b6fccc3371bf95a174c3, Date: 'undefined', date: 'undefined'
+ID: 6988b6fccc3371bf95a174cd, Date: 'undefined', date: 'undefined'

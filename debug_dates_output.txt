@@ -1,0 +1,8 @@
+--- IMPORTED LOGS DATE FIELDS ---
+ID: 6988b6fccc3371bf95a1749e, Date (key 'Date'): '31/01/26', date (key 'date'): 'undefined'
+ID: 6988b6fccc3371bf95a1749f, Date (key 'Date'): '31/01/26', date (key 'date'): 'undefined'
+ID: 6988b6fccc3371bf95a174a0, Date (key 'Date'): '31/01/26', date (key 'date'): 'undefined'
+ID: 6988b6fccc3371bf95a174a1, Date (key 'Date'): '31/01/26', date (key 'date'): 'undefined'
+ID: 6988b6fccc3371bf95a174a2, Date (key 'Date'): '31/01/26', date (key 'date'): 'undefined'
+
+--- STANDARD LOGS DATE FIELDS ---
