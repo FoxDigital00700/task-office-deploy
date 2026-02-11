@@ -58,6 +58,10 @@ const taskSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        chatTopic: {
+            type: String,
+            default: "",
+        },
         documentPath: {
             type: String, // Filename or path
         },
@@ -92,6 +96,17 @@ const taskSchema = new mongoose.Schema(
                 },
             },
         ],
+        reworkCount: {
+            type: Number,
+            default: 0
+        },
+        sessions: [{
+            startTime: Date,
+            endTime: Date,
+            status: String,
+            reworkVersion: Number,
+            duration: Number
+        }],
     },
     { timestamps: true }
 );
