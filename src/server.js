@@ -31,7 +31,9 @@ const allowedOrigins = [
   "http://localhost:5174",
   "http://localhost:3000",
   "http://localhost:5500", // Added Client Port
-  "https://loquacious-phoenix-c65c47.netlify.app"
+  "https://loquacious-phoenix-c65c47.netlify.app",
+  "https://task-office-deploy.onrender.com",
+  process.env.CLIENT_URL
 ];
 
 const io = new Server(httpServer, {
@@ -108,6 +110,7 @@ io.on("connection", (socket) => {
 // Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
-httpServer.listen(5000, () =>
-  console.log("🚀 Server running on port 5000")
+const PORT = process.env.PORT || 5000;
+httpServer.listen(PORT, () =>
+  console.log(`🚀 Server running on port ${PORT}`)
 );
