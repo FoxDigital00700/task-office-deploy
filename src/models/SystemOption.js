@@ -4,12 +4,17 @@ const systemOptionSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ["department", "designation", "workType"], // Updated to match usage in options.js
+        enum: ["department", "designation", "workType", "Project", "Owner", "Type"], // Updated to match usage in options.js
     },
     value: {
         type: String,
         required: true,
         // unique: true // Removed global uniqueness, relying on compound index below
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null // null for global options
     }
 }, { timestamps: true });
 

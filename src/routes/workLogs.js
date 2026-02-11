@@ -1,8 +1,9 @@
 import express from "express";
 import multer from "multer";
-import { createWorkLog, getWorkLogsByEmployee, getAllWorkLogs, updateWorkLog, getFilterOptions } from "../controllers/workLogController.js";
+import { createWorkLog, getWorkLogsByEmployee, getAllWorkLogs, updateWorkLog, getFilterOptions, getDailyTaskCount } from "../controllers/workLogController.js";
 import path from "path";
 import fs from "fs";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -33,6 +34,9 @@ router.get("/employee/:id", getWorkLogsByEmployee);
 
 // GET FILTER OPTIONS
 router.get("/filters", getFilterOptions);
+
+// GET DAILY TASK COUNT
+router.get("/count", verifyToken, getDailyTaskCount);
 
 // UPDATE LOG STATUS
 router.put("/:id", updateWorkLog);
