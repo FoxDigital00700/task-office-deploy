@@ -1,7 +1,14 @@
 import express from "express";
 import SystemOption from "../models/SystemOption.js";
+import { getOptions, addOption, deleteOption } from "../controllers/systemOptionController.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+
+// New Routes for Dynamic User Options
+router.get("/", verifyToken, getOptions);
+router.post("/", verifyToken, addOption);
+router.delete("/:id", verifyToken, deleteOption);
 
 // Get all options grouped by category
 router.get("/all", async (req, res) => {

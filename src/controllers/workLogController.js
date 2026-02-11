@@ -420,3 +420,27 @@ export const getFilterOptions = async (req, res) => {
         res.status(500).json({ message: "Server Error" });
     }
 };
+
+// @desc    Get Daily Task Count (for auto-incrementing Task No)
+// @route   GET /api/work-logs/count?date=YYYY-MM-DD
+// @access  Private
+export const getDailyTaskCount = async (req, res) => {
+    try {
+        const { date } = req.query;
+        const employeeId = req.user.id; // From auth middleware
+
+        if (!date) {
+            return res.status(400).json({ message: "Date is required" });
+        }
+
+        const count = await WorkLog.countDocuments({
+            date,
+            employeeId
+        });
+
+        res.json({ count });
+    } catch (error) {
+        console.error("Error fetching task count:", error);
+        res.status(500).json({ message: "Server Error" });
+    }
+};

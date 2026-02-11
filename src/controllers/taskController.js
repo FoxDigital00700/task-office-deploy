@@ -1,5 +1,12 @@
 import Task from "../models/Task.js";
 import User from "../models/User.js";
+import WorkLog from "../models/WorkLog.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // @desc    Create a new task
 // @route   POST /api/tasks
@@ -47,6 +54,46 @@ export const createTask = async (req, res) => {
             parsedAssignee = [assignee];
         }
 
+        // Parse projectLead
+        let parsedProjectLead = [];
+        if (req.body.projectLead) {
+            if (typeof req.body.projectLead === 'string') {
+                try {
+                    parsedProjectLead = JSON.parse(req.body.projectLead);
+                } catch (e) {
+                    parsedProjectLead = [req.body.projectLead]; // Fallback
+                }
+            } else if (Array.isArray(req.body.projectLead)) {
+                parsedProjectLead = req.body.projectLead;
+            }
+        }
+
+        // Handle assignedBy (User ID)
+        let parsedAssignedBy = req.body.assignedBy;
+        if (parsedAssignedBy === "" || parsedAssignedBy === "null" || parsedAssignedBy === "undefined") {
+            parsedAssignedBy = null;
+        }
+
+        // Parse department
+        let parsedDepartment = [];
+        if (req.body.department) {
+            if (typeof req.body.department === 'string') {
+                try {
+                    parsedDepartment = JSON.parse(req.body.department);
+                } catch (e) {
+                    parsedDepartment = [req.body.department];
+                }
+            } else if (Array.isArray(req.body.department)) {
+                parsedDepartment = req.body.department;
+            }
+        }
+
+        // Handle teamLead (Optional ObjectId)
+        let parsedTeamLead = req.body.teamLead;
+        if (parsedTeamLead === "" || parsedTeamLead === "null" || parsedTeamLead === "undefined") {
+            parsedTeamLead = null;
+        }
+
         // --- STRICT MODE ASSIGNMENT LOGIC ---
         // 1. Single: assignee = [UserIDs]
         // 2. Department: assignee = [DeptNames]
@@ -75,6 +122,10 @@ export const createTask = async (req, res) => {
             assignType,
             assignee: targetAssignee, // Stores Targets
             assignedTo: [], // Starts Empty! (Acceptance Flow)
+            projectLead: parsedProjectLead, // Use parsed value
+            department: parsedDepartment, // Added Department
+            teamLead: parsedTeamLead,     // Added Team Lead
+            assignedBy: parsedAssignedBy, // Added Assigned By
             priority,
             startDate,
             startTime,
@@ -150,7 +201,9 @@ export const getInvitations = async (req, res) => {
         const allPending = await Task.find({
             status: { $in: ["Pending", "In Progress"] },
             "declinedBy.userId": { $ne: userId }
-        });
+        })
+            .populate("projectLead", "name")
+            .populate("teamLead", "name");
 
         const myInvitations = allPending.filter(task => {
             const isAssigned = (task.assignedTo || []).some(id => id.toString() === userId.toString());
@@ -176,7 +229,10 @@ export const getInvitations = async (req, res) => {
                 const targetDepts = task.assignee || [];
                 const roleMatch = targetDepts.some(dept => {
                     const allowedRoles = deptRoleMap[dept] || [dept]; // Fallback to 1:1
-                    return allowedRoles.includes(user.role);
+                    // Check if user has ANY of the allowed roles
+                    return Array.isArray(user.role)
+                        ? user.role.some(r => allowedRoles.includes(r))
+                        : allowedRoles.includes(user.role);
                 });
                 return roleMatch;
             }
@@ -238,6 +294,15 @@ export const respondToTask = async (req, res) => {
             }
 
             task.status = "In Progress";
+
+            // Start the first session
+            task.sessions.push({
+                startTime: new Date(),
+                endTime: null,
+                status: "In Progress",
+                reworkVersion: 0
+            });
+
             await task.save();
 
             // Emit Event for Admin
@@ -290,11 +355,30 @@ export const getMyTasks = async (req, res) => {
         const tasks = await Task.find({
             assignedTo: userId,
             status: { $in: ["In Progress", "Completed", "Overdue", "Hold"] }
-        });
+        })
+            .populate("projectLead", "name")
+            .populate("teamLead", "name")
+            .populate("assignedBy", "name");
 
         res.json(tasks);
     } catch (error) {
     }
+};
+
+// Helper to format 24h time
+const formatTime24 = (date) => {
+    return date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+};
+
+// Helper to format duration
+const formatDuration = (ms) => {
+    const totalMinutes = Math.floor(ms / 60000);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    let str = "";
+    if (hours > 0) str += `${hours} hr${hours > 1 ? 's' : ''} `;
+    if (minutes > 0) str += `${minutes} min${minutes > 1 ? 's' : ''}`;
+    return str.trim() || "0 min";
 };
 
 // @desc    Update Task Status
@@ -303,7 +387,7 @@ export const getMyTasks = async (req, res) => {
 export const updateTaskStatus = async (req, res) => {
     try {
         const { id } = req.params;
-        const { status } = req.body;
+        const { status, userId } = req.body;
 
         if (!["In Progress", "Completed", "Hold"].includes(status)) {
             return res.status(400).json({ message: "Invalid status" });
@@ -313,6 +397,68 @@ export const updateTaskStatus = async (req, res) => {
         if (!task) {
             return res.status(404).json({ message: "Task not found" });
         }
+
+        const now = new Date();
+
+        // 1. End active session if exists (Pause timer)
+        // Find session that has startTime but NO endTime
+        const activeSession = task.sessions.find(s => !s.endTime);
+        if (activeSession) {
+            const startTime = new Date(activeSession.startTime);
+            activeSession.endTime = now;
+            activeSession.duration = now - startTime; // Calc duration ms
+
+            if (userId) {
+                try {
+                    const durationStr = formatDuration(activeSession.duration);
+                    const newLog = new WorkLog({
+                        employeeId: userId,
+                        taskTitle: task.taskTitle,
+                        projectName: task.projectName,
+                        date: now.toISOString().split('T')[0],
+                        startTime: formatTime24(startTime),
+                        endTime: formatTime24(now),
+                        duration: durationStr,
+                        timeAutomation: durationStr,
+                        status: status,
+                        description: task.description || "Auto-logged task session",
+                        taskNo: task.reworkCount,
+                        taskOwner: task.assignedBy ? task.assignedBy.toString() : "System",
+                        taskType: "Task",
+                        reworkCount: task.reworkCount
+                    });
+                    await newLog.save();
+                } catch (logError) {
+                    console.error("Error creating automated work log:", logError);
+                    // Do not block task update if log fails
+                }
+            }
+        }
+
+        // 2. Start new session if status is "In Progress" (Start timer)
+        if (status === "In Progress") {
+            task.sessions.push({
+                startTime: now,
+                endTime: null,
+                status: "In Progress",
+                reworkVersion: task.reworkCount || 0
+            });
+        }
+
+        // Note: For "Hold", we already ended the active session above. 
+        // We can optionally add a "Hold" session just for audit trail if needed,
+        // but user asked for "Hold time: ...", which implies tracking WHEN it went on hold.
+        // A closed session with endTime tracks the work period. 
+        // The gap between sessions effectively tracks the "Hold" period.
+        // But let's check user req: "Hold time: 11:15 PM... Start time 2: 11:30 PM"
+
+        // Actually, if we just end the session, we have the records.
+        // Session 1: Start 11:02 - End 11:15 (Duration 13 mins). Status: In Progress.
+        // Gaps are Hold time.
+
+        // However, if user wants explicit "Hold" logs in DB?
+        // Let's stick to tracking "Work Sessions". 
+        // A "Hold" status update just closes the current work session.
 
         task.status = status;
         await task.save();
@@ -324,16 +470,66 @@ export const updateTaskStatus = async (req, res) => {
     }
 };
 
+// @desc    Trigger Rework
+// @route   PUT /api/tasks/:id/rework
+// @access  Public
+export const reworkTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const task = await Task.findById(id);
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        // Increment Rework Count
+        task.reworkCount = (task.reworkCount || 0) + 1;
+
+        // Set Status to In Progress
+        task.status = "In Progress";
+
+        // Start New Session for Rework
+        task.sessions.push({
+            startTime: new Date(),
+            endTime: null,
+            status: "In Progress",
+            reworkVersion: task.reworkCount
+        });
+
+        await task.save();
+        res.json(task);
+    } catch (error) {
+        console.error("Error triggering rework:", error);
+        res.status(500).json({ message: "Server Error" });
+    }
+};
+
+// @desc    Update Chat Topic
+// @route   PUT /api/tasks/:id/chat-topic
+// @access  Public
+export const updateChatTopic = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { chatTopic } = req.body;
+
+        const task = await Task.findById(id);
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        task.chatTopic = chatTopic;
+        await task.save();
+
+        res.json(task);
+    } catch (error) {
+        console.error("Error updating chat topic:", error);
+        res.status(500).json({ message: "Server Error" });
+    }
+};
+
 // @desc    Download File
 // @route   GET /api/tasks/download/:filename
 // @access  Public
-import path from "path";
-import { fileURLToPath } from "url";
-import fs from "fs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 // @desc    Get Tasks for a specific Employee (Admin View)
 // @route   GET /api/tasks/employee/:employeeId
 // @access  Public (Should be Admin)
@@ -351,7 +547,11 @@ export const getTasksByEmployee = async (req, res) => {
         // Fix ObjectId casting for array query
         const tasks = await Task.find({
             assignedTo: employeeId
-        }).sort({ createdAt: -1 });
+        })
+            .sort({ createdAt: -1 })
+            .populate("projectLead", "name")
+            .populate("teamLead", "name")
+            .populate("assignedBy", "name");
 
         res.json(tasks);
     } catch (error) {
@@ -365,7 +565,11 @@ export const getTasksByEmployee = async (req, res) => {
 // @access  Public (Should be Admin)
 export const getAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({}).sort({ createdAt: -1 });
+        const tasks = await Task.find({})
+            .sort({ createdAt: -1 })
+            .populate("projectLead", "name")
+            .populate("teamLead", "name")
+            .populate("assignedBy", "name");
         res.json(tasks);
     } catch (error) {
         console.error("Error fetching all tasks:", error);

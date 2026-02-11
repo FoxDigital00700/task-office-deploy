@@ -14,6 +14,17 @@ const taskSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        department: {
+            type: [String],
+        },
+        teamLead: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+        projectLead: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        }],
         workCategory: {
             type: String,
         },
@@ -47,6 +58,10 @@ const taskSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        chatTopic: {
+            type: String,
+            default: "",
+        },
         documentPath: {
             type: String, // Filename or path
         },
@@ -57,6 +72,10 @@ const taskSchema = new mongoose.Schema(
             type: String,
             enum: ["Pending", "In Progress", "Completed", "Overdue", "Hold"],
             default: "Pending",
+        },
+        assignedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
         },
         assignedTo: [{
             type: mongoose.Schema.Types.ObjectId,
@@ -98,6 +117,17 @@ const taskSchema = new mongoose.Schema(
                 },
             },
         ],
+        reworkCount: {
+            type: Number,
+            default: 0
+        },
+        sessions: [{
+            startTime: Date,
+            endTime: Date,
+            status: String,
+            reworkVersion: Number,
+            duration: Number
+        }],
     },
     { timestamps: true }
 );
