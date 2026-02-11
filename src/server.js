@@ -30,25 +30,32 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:3000",
-  "http://localhost:5500", // Added Client Port
-  "https://loquacious-phoenix-c65c47.netlify.app",
+  "http://localhost:5500",
+  "https://taskmanageroffice.netlify.app",
   "https://task-office-deploy.onrender.com",
   process.env.CLIENT_URL
 ];
 
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || /\.netlify\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+
 const io = new Server(httpServer, {
-  cors: {
-    origin: allowedOrigins,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
-  }
+  cors: corsOptions
 });
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+
+app.use(cors(corsOptions));
 
 // Add Private Network Access header for Chrome
 app.use((req, res, next) => {
