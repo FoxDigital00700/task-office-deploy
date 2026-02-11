@@ -15,6 +15,10 @@ const verifyToken = (req, res, next) => {
     try {
         const verified = jwt.verify(token, process.env.JWT_SECRET || "secret_key_123");
         req.user = verified;
+        // Normalize _id for controllers expecting Mongoose object or _id field
+        if (req.user.id && !req.user._id) {
+            req.user._id = req.user.id;
+        }
         next();
     } catch (error) {
         res.status(403).json({ message: "Invalid Token" });

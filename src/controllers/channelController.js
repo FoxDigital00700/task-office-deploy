@@ -65,7 +65,8 @@ export const deleteChannel = async (req, res) => {
 
         // Super Admin: All access. Manager: Only if member.
         if (!req.user.role.includes('Super Admin') && !req.user.role.includes('Admin')) {
-            if (!req.user.role.includes('Manager') || !channel.allowedUsers.includes(req.user._id)) {
+            const isMember = channel.allowedUsers.some(u => u.toString() === req.user._id);
+            if ((!req.user.role.includes('Manager') && !req.user.role.includes('Tech Lead')) || !isMember) {
                 return res.status(403).json({ message: 'Access Denied' });
             }
         }
@@ -98,7 +99,8 @@ export const renameChannel = async (req, res) => {
 
         // Super Admin: All access. Manager: Only if member.
         if (!req.user.role.includes('Super Admin') && !req.user.role.includes('Admin')) {
-            if (!req.user.role.includes('Manager') || !channel.allowedUsers.includes(req.user._id)) {
+            const isMember = channel.allowedUsers.some(u => u.toString() === req.user._id);
+            if ((!req.user.role.includes('Manager') && !req.user.role.includes('Tech Lead')) || !isMember) {
                 return res.status(403).json({ message: 'Access Denied' });
             }
         }
@@ -120,7 +122,8 @@ export const addMember = async (req, res) => {
 
         // Super Admin: All access. Manager: Only if member.
         if (!req.user.role.includes('Super Admin') && !req.user.role.includes('Admin')) {
-            if (!req.user.role.includes('Manager') || !channel.allowedUsers.includes(req.user._id)) {
+            const isMember = channel.allowedUsers.some(u => u.toString() === req.user._id);
+            if ((!req.user.role.includes('Manager') && !req.user.role.includes('Tech Lead')) || !isMember) {
                 return res.status(403).json({ message: 'Access Denied' });
             }
         }
@@ -148,7 +151,8 @@ export const addMember = async (req, res) => {
         }
 
         // Check if already member
-        if (channel.allowedUsers.includes(userToAdd._id)) {
+        const isAlreadyMember = channel.allowedUsers.some(u => u.toString() === userToAdd._id.toString());
+        if (isAlreadyMember) {
             return res.status(400).json({ message: 'User already in channel' });
         }
 
@@ -169,7 +173,8 @@ export const removeMember = async (req, res) => {
 
         // Super Admin: All access. Manager: Only if member.
         if (!req.user.role.includes('Super Admin') && !req.user.role.includes('Admin')) {
-            if (!req.user.role.includes('Manager') || !channel.allowedUsers.includes(req.user._id)) {
+            const isMember = channel.allowedUsers.some(u => u.toString() === req.user._id);
+            if ((!req.user.role.includes('Manager') && !req.user.role.includes('Tech Lead')) || !isMember) {
                 return res.status(403).json({ message: 'Access Denied' });
             }
         }

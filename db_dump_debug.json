@@ -1,0 +1,353 @@
+{
+  "channelCount": 15,
+  "userCount": 18,
+  "channels": [
+    {
+      "_id": "6985c38f952fbc9fc0f0d212",
+      "name": "general",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [],
+      "createdAt": "2026-02-06T10:33:51.773Z",
+      "updatedAt": "2026-02-10T02:41:48.281Z",
+      "__v": 2,
+      "parent": null
+    },
+    {
+      "_id": "6986f66469ba95d83656fbf1",
+      "name": "seo",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [],
+      "parent": null,
+      "createdAt": "2026-02-07T08:23:00.461Z",
+      "updatedAt": "2026-02-07T08:23:00.461Z",
+      "__v": 0
+    },
+    {
+      "_id": "6986f66d69ba95d83656fc03",
+      "name": "facebook",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [],
+      "parent": "6986f66469ba95d83656fbf1",
+      "createdAt": "2026-02-07T08:23:09.839Z",
+      "updatedAt": "2026-02-07T08:23:09.839Z",
+      "__v": 0
+    },
+    {
+      "_id": "6986f67269ba95d83656fc16",
+      "name": "whatsapp",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [],
+      "parent": "6986f66469ba95d83656fbf1",
+      "createdAt": "2026-02-07T08:23:14.540Z",
+      "updatedAt": "2026-02-07T08:23:14.540Z",
+      "__v": 0
+    },
+    {
+      "_id": "6986f69969ba95d83656fc2d",
+      "name": "sm",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [],
+      "parent": null,
+      "createdAt": "2026-02-07T08:23:53.281Z",
+      "updatedAt": "2026-02-07T08:23:53.281Z",
+      "__v": 0
+    },
+    {
+      "_id": "6986f69e69ba95d83656fc42",
+      "name": "meta",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [],
+      "parent": "6986f69969ba95d83656fc2d",
+      "createdAt": "2026-02-07T08:23:58.252Z",
+      "updatedAt": "2026-02-07T08:23:58.252Z",
+      "__v": 0
+    },
+    {
+      "_id": "6986f6a269ba95d83656fc58",
+      "name": "linkedin",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [],
+      "parent": "6986f69969ba95d83656fc2d",
+      "createdAt": "2026-02-07T08:24:02.451Z",
+      "updatedAt": "2026-02-07T08:24:02.451Z",
+      "__v": 0
+    },
+    {
+      "_id": "69899756fb88464e28727ee3",
+      "name": "Offline History",
+      "type": "Private",
+      "allowedTeams": [],
+      "allowedUsers": [],
+      "parent": null,
+      "description": "System log for offline messages",
+      "createdAt": "2026-02-09T08:14:14.487Z",
+      "updatedAt": "2026-02-09T08:14:14.487Z",
+      "__v": 0
+    },
+    {
+      "_id": "698b263bc10d492537548918",
+      "name": "SM-Developer",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [
+        "6986dcdb2ff9024304f0e0f1",
+        "6986ec0ac988502a3ac5dd59",
+        "6986ec4fc988502a3ac5dd5e",
+        "6986eca3c988502a3ac5dd68",
+        "6986ecc4c988502a3ac5dd6d",
+        "6986eeafc988502a3ac5ddd7",
+        "6986ea2cc988502a3ac5dd21"
+      ],
+      "parent": null,
+      "createdAt": "2026-02-10T12:36:11.973Z",
+      "updatedAt": "2026-02-10T12:43:40.230Z",
+      "__v": 6
+    },
+    {
+      "_id": "698b26aec10d49253754892c",
+      "name": "SM-SEO-Specialist",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [
+        "6986dcdb2ff9024304f0e0f1",
+        "6986eb5cc988502a3ac5dd54",
+        "6986ec0ac988502a3ac5dd59",
+        "6986ea2cc988502a3ac5dd21"
+      ],
+      "parent": null,
+      "createdAt": "2026-02-10T12:38:06.310Z",
+      "updatedAt": "2026-02-10T12:43:47.555Z",
+      "__v": 3
+    },
+    {
+      "_id": "698b26b5c10d492537548941",
+      "name": "SM-Designer",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [
+        "6986dcdb2ff9024304f0e0f1",
+        "6986ea61c988502a3ac5dd26",
+        "6986ea2cc988502a3ac5dd21",
+        "6986ec0ac988502a3ac5dd59",
+        "6986ec78c988502a3ac5dd63",
+        "6986ed4ec988502a3ac5dd77"
+      ],
+      "parent": null,
+      "createdAt": "2026-02-10T12:38:13.911Z",
+      "updatedAt": "2026-02-10T12:44:23.432Z",
+      "__v": 5
+    },
+    {
+      "_id": "698b26c7c10d492537548957",
+      "name": "Website-Developer",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [
+        "6986dcdb2ff9024304f0e0f1",
+        "6986eabcc988502a3ac5dd2f",
+        "6986ee28c988502a3ac5ddb6"
+      ],
+      "parent": null,
+      "createdAt": "2026-02-10T12:38:31.607Z",
+      "updatedAt": "2026-02-10T12:44:38.857Z",
+      "__v": 2
+    },
+    {
+      "_id": "698b2736c10d49253754896e",
+      "name": "Full-Stack-Developer",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [
+        "6986dcdb2ff9024304f0e0f1",
+        "6986ece8c988502a3ac5dd72",
+        "6986ed4ec988502a3ac5dd77"
+      ],
+      "parent": null,
+      "createdAt": "2026-02-10T12:40:22.662Z",
+      "updatedAt": "2026-02-10T12:44:54.590Z",
+      "__v": 2
+    },
+    {
+      "_id": "698b275ec10d49253754899f",
+      "name": "Admin-&-Co",
+      "type": "Global",
+      "allowedTeams": [],
+      "allowedUsers": [
+        "6986dcdb2ff9024304f0e0f1",
+        "6986e716c988502a3ac5dcaa",
+        "6986e9b6c988502a3ac5dcfc"
+      ],
+      "parent": null,
+      "createdAt": "2026-02-10T12:41:02.596Z",
+      "updatedAt": "2026-02-10T12:45:27.421Z",
+      "__v": 2
+    },
+    {
+      "_id": "698b3a137f09b8e4f5409003",
+      "name": "01",
+      "type": "Team",
+      "allowedTeams": [],
+      "allowedUsers": [
+        "6986eb5cc988502a3ac5dd54",
+        "6986ec0ac988502a3ac5dd59"
+      ],
+      "parent": "698b26aec10d49253754892c",
+      "description": "Task: Design (ID: 698b3a036424bf5f9e24f0a3)",
+      "createdAt": "2026-02-10T14:00:51.175Z",
+      "updatedAt": "2026-02-10T14:27:32.311Z",
+      "__v": 0,
+      "status": "Archived"
+    }
+  ],
+  "users": [
+    {
+      "_id": "6986dcdb2ff9024304f0e0f1",
+      "name": "Super Admin 01",
+      "role": "Super Admin",
+      "designation": "Admin",
+      "email": "foxdigital01@gmail.com"
+    },
+    {
+      "_id": "6986dcdb2ff9024304f0e0f4",
+      "name": "Super Admin 02",
+      "role": "Super Admin",
+      "designation": "Super Admin",
+      "email": "foxdigital02@gmail.com"
+    },
+    {
+      "_id": "6986e2efb4256d9444d8df1b",
+      "name": "Saarathi",
+      "email": "veofox6@gmail.com",
+      "role": "Super Admin",
+      "designation": "Super Admin"
+    },
+    {
+      "_id": "6986e716c988502a3ac5dcaa",
+      "name": "VENKAT VIJAY",
+      "role": "Admin & Co",
+      "designation": "Admin",
+      "email": "foxdigiservices@gmail.com"
+    },
+    {
+      "_id": "6986e9b6c988502a3ac5dcfc",
+      "name": "AISHWARYA",
+      "role": "Admin & Co",
+      "designation": "Admin",
+      "email": "foxdigiservices2@gmail.com"
+    },
+    {
+      "_id": "6986ea2cc988502a3ac5dd21",
+      "name": "NAREN",
+      "role": [
+        "User",
+        "Project Manager"
+      ],
+      "designation": "Tech Lead",
+      "email": "narenprabupt@gmail.com"
+    },
+    {
+      "_id": "6986ea61c988502a3ac5dd26",
+      "name": "VINOTH",
+      "role": [
+        "User",
+        "SM Designer"
+      ],
+      "designation": "Tech Lead",
+      "email": "gd1.fdts@gmail.com"
+    },
+    {
+      "_id": "6986eabcc988502a3ac5dd2f",
+      "name": "SUBA",
+      "role": [
+        "Website Developer"
+      ],
+      "designation": "Tech Lead",
+      "email": "dms9.fds@gmail.com"
+    },
+    {
+      "_id": "6986eb5cc988502a3ac5dd54",
+      "name": "ARUL HARIKARAN",
+      "role": "SM SEO  Specialist",
+      "designation": "Senior",
+      "email": "dms5.fds@gmail.com"
+    },
+    {
+      "_id": "6986ec0ac988502a3ac5dd59",
+      "name": "DEVADHARSHINI",
+      "role": [
+        "User",
+        "SM Developer",
+        "SM SEO  Specialist",
+        "SM Designer"
+      ],
+      "designation": "Tech Lead",
+      "email": "dms12.fds@gmail.com"
+    },
+    {
+      "_id": "6986ec4fc988502a3ac5dd5e",
+      "name": "VIGNESH",
+      "role": "SM Developer",
+      "designation": "Senior",
+      "email": "dms13.fds@gmail.com"
+    },
+    {
+      "_id": "6986ec78c988502a3ac5dd63",
+      "name": "HARISH",
+      "role": "SM Designer",
+      "designation": "Senior",
+      "email": "dms15.fds@gmail.com"
+    },
+    {
+      "_id": "6986eca3c988502a3ac5dd68",
+      "name": "PAVITHRA",
+      "role": "SM Developer",
+      "designation": "Senior",
+      "email": "dms16.fds@gmail.com"
+    },
+    {
+      "_id": "6986ecc4c988502a3ac5dd6d",
+      "name": "PRABHA",
+      "role": "SM Developer",
+      "designation": "Junior",
+      "email": "dms17.fds@gmail.com"
+    },
+    {
+      "_id": "6986ece8c988502a3ac5dd72",
+      "name": "GOKULAKANNAN",
+      "role": "Full Stack Developer",
+      "designation": "Junior",
+      "email": "dms18.fds@gmail.com"
+    },
+    {
+      "_id": "6986ed4ec988502a3ac5dd77",
+      "name": "SAARATHI RAGUL",
+      "role": [
+        "Full Stack Developer",
+        "SM Designer"
+      ],
+      "designation": "Senior",
+      "email": "dms19.fds@gmail.com"
+    },
+    {
+      "_id": "6986ee28c988502a3ac5ddb6",
+      "name": "JAYA",
+      "role": "Website Developer",
+      "designation": "Senior",
+      "email": "dms10.fds@gmail.com"
+    },
+    {
+      "_id": "6986eeafc988502a3ac5ddd7",
+      "name": "SANTHOSH",
+      "role": "SM Developer",
+      "designation": "Intern",
+      "email": "dmsintern.fds@gmail.com"
+    }
+  ]
+}

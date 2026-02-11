@@ -81,7 +81,10 @@ export const createTask = async (req, res) => {
             deadline,
             // Handle Files
             documentPath: req.files && req.files['documents'] ? req.files['documents'][0].filename : null,
-            audioPath: req.files && req.files['audioFile'] ? req.files['audioFile'][0].filename : null
+            audioPath: req.files && req.files['audioFile'] ? req.files['audioFile'][0].filename : null,
+            // Chat/Channel Link
+            chatBranchId: req.body.chatBranchId,
+            chatUrl: req.body.chatUrl
         });
 
         const savedTask = await newTask.save();

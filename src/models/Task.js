@@ -62,6 +62,27 @@ const taskSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         }],
+        department: {
+            type: [String],
+        },
+        teamLead: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+        projectLead: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        }],
+        assignedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+        chatBranchId: {
+            type: String, // ID of the Office Sync branch
+        },
+        chatUrl: {
+            type: String, // Full URL to the chat branch
+        },
         declinedBy: [
             {
                 userId: {

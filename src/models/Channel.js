@@ -15,7 +15,14 @@ const channelSchema = new mongoose.Schema({
     // For Hierarchy (Branches)
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Channel', default: null },
 
-    description: String
+    description: String,
+
+    // Status for Session Management
+    status: {
+        type: String,
+        enum: ['Active', 'Archived'],
+        default: 'Active'
+    }
 }, { timestamps: true });
 
 export default mongoose.model('Channel', channelSchema);

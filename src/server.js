@@ -9,6 +9,7 @@ import workLogRoutes from "./routes/workLogs.js";
 import attendanceRoutes from "./routes/attendance.js";
 import leaveRoutes from "./routes/leave.js";
 import optionRoutes from "./routes/options.js";
+import internalRoutes from "./routes/internal.routes.js";
 import seedSuperAdmin from "./seedSuperAdmin.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -27,7 +28,9 @@ connectDB().then(() => {
 
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:5174",
   "http://localhost:3000",
+  "http://localhost:5500", // Added Client Port
   "https://loquacious-phoenix-c65c47.netlify.app"
 ];
 
@@ -81,6 +84,7 @@ app.use("/api/work-logs", workLogRoutes);
 app.use("/api/leave", leaveRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/options", optionRoutes);
+app.use("/api/internal", internalRoutes); // Mounted Internal API
 
 // Chat Routes
 app.use("/api/channels", channelRoutes);
