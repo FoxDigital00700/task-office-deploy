@@ -47,7 +47,7 @@ const corsOptions = {
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"]
 };
 
 const io = new Server(httpServer, {
@@ -62,7 +62,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Private-Network", "true");
   if (req.method === "OPTIONS") {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, x-auth-token");
     return res.status(200).json({});
   }
   next();
